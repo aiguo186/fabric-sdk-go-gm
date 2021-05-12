@@ -27,9 +27,9 @@ import (
 
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 
-	factory "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/sdkpatch/cryptosuitebridge"
-	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/sdkpatch/logbridge"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/util"
+	factory "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/cryptosuitebridge"
+	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/logbridge"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"
 	"github.com/pkg/errors"
 )
 
