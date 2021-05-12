@@ -10,7 +10,7 @@ require (
 	github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973 // indirect
 	github.com/certifi/gocertifi v0.0.0-20180118203423-deb3ae2ef261 // indirect
 	github.com/cloudflare/backoff v0.0.0-20161212185259-647f3cdfc87a // indirect
-	github.com/cloudflare/cfssl v0.0.0-20141119014638-2f7f44e802e2
+	github.com/cloudflare/cfssl v1.4.1
 	github.com/cloudflare/go-metrics v0.0.0-20151117154305-6a9aea36fb41 // indirect
 	github.com/cloudflare/redoctober v0.0.0-20171127175943-746a508df14c // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
