@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	fabricCaUtil "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/util"
+	fabricCaUtil "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/msp"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/core/config/cryptoutil"
