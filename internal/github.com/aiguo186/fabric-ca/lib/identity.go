@@ -17,12 +17,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/api"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/client/credential"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/client/credential/x509"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/common"
-	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/sdkpatch/logbridge"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/util"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/api"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential/x509"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/common"
+	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/logbridge"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"
 	"github.com/pkg/errors"
 )
 
