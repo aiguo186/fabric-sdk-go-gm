@@ -16,12 +16,12 @@ import (
 
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 
-	factory "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/sdkpatch/cryptosuitebridge"
-	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/sdkpatch/logbridge"
+	factory "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/cryptosuitebridge"
+	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/logbridge"
 
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/api"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/client/credential"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/util"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/api"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"
 	"github.com/pkg/errors"
 )
 
