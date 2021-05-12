@@ -32,7 +32,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/cloudflare/cfssl/api"
+	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/api"
 	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/logbridge"
 	"github.com/pkg/errors"
 )

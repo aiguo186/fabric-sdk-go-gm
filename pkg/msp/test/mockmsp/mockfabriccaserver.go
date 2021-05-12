@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"time"
 
-	cfsslapi "github.com/cloudflare/cfssl/api"
+	cfsslapi "github.com/aiguo186/fabric-sdk-go-gm/cfssl/api"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/api"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"

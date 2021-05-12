@@ -26,8 +26,8 @@ import (
 
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 
-	cfsslapi "github.com/cloudflare/cfssl/api"
-	"github.com/cloudflare/cfssl/csr"
+	cfsslapi "github.com/aiguo186/fabric-sdk-go-gm/cfssl/api"
+	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/csr"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/api"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential"
 	x509cred "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential/x509"

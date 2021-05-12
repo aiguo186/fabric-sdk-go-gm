@@ -34,8 +34,8 @@ import (
 
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 
-	"github.com/cloudflare/cfssl/csr"
-	"github.com/cloudflare/cfssl/helpers"
+	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/csr"
+	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/helpers"
 	factory "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/cryptosuitebridge"
 	log "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/sdkpatch/logbridge"
 	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric/bccsp"
