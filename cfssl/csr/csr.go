@@ -14,13 +14,11 @@ import (
 	"errors"
 	"net"
 	"net/mail"
-	"reflect"
 	"strings"
 
 	cferr "github.com/aiguo186/fabric-sdk-go-gm/cfssl/errors"
 	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/helpers"
 	"github.com/aiguo186/fabric-sdk-go-gm/cfssl/log"
-	"github.com/tjfoc/gmsm/sm2"
 )
 
 const (
@@ -31,38 +29,46 @@ const (
 
 // A Name contains the SubjectInfo fields.
 type Name struct {
-	C            string `json:"C,omitempty" yaml:"C,omitempty"`   // Country
-	ST           string `json:"ST,omitempty" yaml:"ST,omitempty"` // State
-	L            string `json:"L,omitempty" yaml:"L,omitempty"`   // Locality
-	O            string `json:"O,omitempty" yaml:"O,omitempty"`   // OrganisationName
-	OU           string `json:"OU,omitempty" yaml:"OU,omitempty"` // OrganisationalUnitName
-	SerialNumber string `json:"SerialNumber,omitempty" yaml:"SerialNumber,omitempty"`
+	C            string // Country
+	ST           string // State
+	L            string // Locality
+	O            string // OrganisationName
+	OU           string // OrganisationalUnitName
+	SerialNumber string
 }
 
-// A KeyRequest contains the algorithm and key size for a new private key.
-type KeyRequest struct {
+// A KeyRequest is a generic request for a new key.
+type KeyRequest interface {
+	Algo() string
+	Size() int
+	Generate() (crypto.PrivateKey, error)
+	SigAlgo() x509.SignatureAlgorithm
+}
+
+// A BasicKeyRequest contains the algorithm and key size for a new private key.
+type BasicKeyRequest struct {
 	A string `json:"algo" yaml:"algo"`
 	S int    `json:"size" yaml:"size"`
 }
 
-// NewKeyRequest returns a default KeyRequest.
-func NewKeyRequest() *KeyRequest {
-	return &KeyRequest{"gmsm2", curveP256}
+// NewBasicKeyRequest returns a default BasicKeyRequest.
+func NewBasicKeyRequest() *BasicKeyRequest {
+	return &BasicKeyRequest{"ecdsa", curveP256}
 }
 
 // Algo returns the requested key algorithm represented as a string.
-func (kr *KeyRequest) Algo() string {
+func (kr *BasicKeyRequest) Algo() string {
 	return kr.A
 }
 
 // Size returns the requested key size.
-func (kr *KeyRequest) Size() int {
+func (kr *BasicKeyRequest) Size() int {
 	return kr.S
 }
 
 // Generate generates a key as specified in the request. Currently,
 // only ECDSA and RSA are supported.
-func (kr *KeyRequest) Generate() (crypto.PrivateKey, error) {
+func (kr *BasicKeyRequest) Generate() (crypto.PrivateKey, error) {
 	log.Debugf("generate key from request: algo=%s, size=%d", kr.Algo(), kr.Size())
 	switch kr.Algo() {
 	case "rsa":
@@ -86,8 +92,6 @@ func (kr *KeyRequest) Generate() (crypto.PrivateKey, error) {
 			return nil, errors.New("invalid curve")
 		}
 		return ecdsa.GenerateKey(curve, rand.Reader)
-	case "gmsm2":
-		return sm2.GenerateKey()
 	default:
 		return nil, errors.New("invalid algorithm")
 	}
@@ -95,7 +99,7 @@ func (kr *KeyRequest) Generate() (crypto.PrivateKey, error) {
 
 // SigAlgo returns an appropriate X.509 signature algorithm given the
 // key request's type and size.
-func (kr *KeyRequest) SigAlgo() x509.SignatureAlgorithm {
+func (kr *BasicKeyRequest) SigAlgo() x509.SignatureAlgorithm {
 	switch kr.Algo() {
 	case "rsa":
 		switch {
@@ -135,19 +139,19 @@ type CAConfig struct {
 // A CertificateRequest encapsulates the API interface to the
 // certificate request functionality.
 type CertificateRequest struct {
-	CN           string      `json:"CN" yaml:"CN"`
-	Names        []Name      `json:"names" yaml:"names"`
-	Hosts        []string    `json:"hosts" yaml:"hosts"`
-	KeyRequest   *KeyRequest `json:"key,omitempty" yaml:"key,omitempty"`
-	CA           *CAConfig   `json:"ca,omitempty" yaml:"ca,omitempty"`
-	SerialNumber string      `json:"serialnumber,omitempty" yaml:"serialnumber,omitempty"`
+	CN           string
+	Names        []Name     `json:"names" yaml:"names"`
+	Hosts        []string   `json:"hosts" yaml:"hosts"`
+	KeyRequest   KeyRequest `json:"key,omitempty" yaml:"key,omitempty"`
+	CA           *CAConfig  `json:"ca,omitempty" yaml:"ca,omitempty"`
+	SerialNumber string     `json:"serialnumber,omitempty" yaml:"serialnumber,omitempty"`
 }
 
 // New returns a new, empty CertificateRequest with a
-// KeyRequest.
+// BasicKeyRequest.
 func New() *CertificateRequest {
 	return &CertificateRequest{
-		KeyRequest: NewKeyRequest(),
+		KeyRequest: NewBasicKeyRequest(),
 	}
 }
 
@@ -189,7 +193,7 @@ type BasicConstraints struct {
 func ParseRequest(req *CertificateRequest) (csr, key []byte, err error) {
 	log.Info("received CSR")
 	if req.KeyRequest == nil {
-		req.KeyRequest = NewKeyRequest()
+		req.KeyRequest = NewBasicKeyRequest()
 	}
 
 	log.Infof("generating key: %s-%d", req.KeyRequest.Algo(), req.KeyRequest.Size())
@@ -263,9 +267,6 @@ func getHosts(cert *x509.Certificate) []string {
 	}
 	for _, email := range cert.EmailAddresses {
 		hosts = append(hosts, email)
-	}
-	for _, uri := range cert.URIs {
-		hosts = append(hosts, uri.String())
 	}
 
 	return hosts
@@ -363,15 +364,14 @@ func Regenerate(priv crypto.Signer, csr []byte) ([]byte, error) {
 // Generate creates a new CSR from a CertificateRequest structure and
 // an existing key. The KeyRequest field is ignored.
 func Generate(priv crypto.Signer, req *CertificateRequest) (csr []byte, err error) {
-	log.Infof("type---%v", reflect.TypeOf(priv.Public()))
-	/*sigAlgo := helpers.SignerAlgo(priv)
+	sigAlgo := helpers.SignerAlgo(priv)
 	if sigAlgo == x509.UnknownSignatureAlgorithm {
 		return nil, cferr.New(cferr.PrivateKeyError, cferr.Unavailable)
-	}*/
+	}
 
-	var tpl = sm2.CertificateRequest{
+	var tpl = x509.CertificateRequest{
 		Subject:            req.Name(),
-		SignatureAlgorithm: sm2.SM2WithSM3,
+		SignatureAlgorithm: sigAlgo,
 	}
 
 	for i := range req.Hosts {
@@ -392,7 +392,7 @@ func Generate(priv crypto.Signer, req *CertificateRequest) (csr []byte, err erro
 		}
 	}
 
-	csr, err = sm2.CreateCertificateRequest(rand.Reader, &tpl, priv)
+	csr, err = x509.CreateCertificateRequest(rand.Reader, &tpl, priv)
 	if err != nil {
 		log.Errorf("failed to generate a CSR: %v", err)
 		err = cferr.Wrap(cferr.CSRError, cferr.BadRequest, err)
@@ -409,7 +409,7 @@ func Generate(priv crypto.Signer, req *CertificateRequest) (csr []byte, err erro
 }
 
 // appendCAInfoToCSR appends CAConfig BasicConstraint extension to a CSR
-func appendCAInfoToCSR(reqConf *CAConfig, csr *sm2.CertificateRequest) error {
+func appendCAInfoToCSR(reqConf *CAConfig, csr *x509.CertificateRequest) error {
 	pathlen := reqConf.PathLength
 	if pathlen == 0 && !reqConf.PathLenZero {
 		pathlen = -1
