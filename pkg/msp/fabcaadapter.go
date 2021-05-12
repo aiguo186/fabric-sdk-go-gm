@@ -11,10 +11,10 @@ import (
 
 	"encoding/json"
 
-	caapi "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/api"
-	calib "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/client/credential"
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/lib/client/credential/x509"
+	caapi "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/api"
+	calib "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/lib/client/credential/x509"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/core"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/common/providers/msp"
 	"github.com/aiguo186/fabric-sdk-go-gm/pkg/core/config/endpoint"
