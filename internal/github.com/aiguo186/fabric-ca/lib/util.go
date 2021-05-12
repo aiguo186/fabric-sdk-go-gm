@@ -17,7 +17,7 @@ import (
 	tls "github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/tjfoc/gmtls"
 	"net/http"
 
-	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/hyperledger/fabric-ca/util"
+	"github.com/aiguo186/fabric-sdk-go-gm/internal/github.com/aiguo186/fabric-ca/util"
 	"github.com/pkg/errors"
 	"strings"
 )
